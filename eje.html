@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+</head>
+<body>
+  <div class="container mt-5  ">
+    <div class="row">
+      <div class="col-md-5">
+        <h5 id="labelContenido">ESPAÑOL</h5>
+        <textarea name="" id="contenido" rows="5" class="form-control" onkeyup="traducir()"></textarea>
+      </div>
+      <div class="col-md-2 text-center">
+        <button class="btn btn-seondary mt-3 my-3" onclick="invertir()"><- Invertir -></button>
+      </div>
+      <div class="col-md-5">
+        <h5 id="labelTraduccion">INGLES</h5>
+        <textarea name="" id="traduccion" rows="5" class="form-control"></textarea>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+  <script>
+    $.ajax({
+        url: 'https://appmetodoalfaro.gcsof.com/api/Pais/GetAllPais',
+        type: 'GET',
+        success: function(respuesta) {
+          console.log(respuesta);
+        },
+        error: function() {
+            console.log("No es posible completar la operación");
+        }
+    });
+  </script>  
+</body>
+</html>

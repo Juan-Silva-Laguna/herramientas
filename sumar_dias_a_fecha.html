@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+        <input type="date" id="fecha">
+        <input type="text" id="numero"/>
+        <button id="calcular">Calcular</button>
+    </p>
+      <p>Resultado: <span id="resultado"></span></p>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
+      <script>
+          document.getElementById("calcular").addEventListener('click', function (e) {
+            e.preventDefault();
+            let numero = document.getElementById("numero").value;
+            let fecha = document.getElementById("fecha").value;
+            let arrayFecha = fecha.split("-");
+            
+            var TuFecha = new Date(arrayFecha[1]+"/"+arrayFecha[2]+"/"+arrayFecha[0]);
+            
+            
+                //dias a sumar
+                let dias = parseInt(numero);
+                
+                //nueva TuFecha sumada
+                TuFecha.setDate(TuFecha.getDate() + dias);
+                //formato de salida para la TuFecha
+                resultado.innerText = TuFecha.getDate() + '/' +
+                (TuFecha.getMonth() + 1) + '/' + TuFecha.getFullYear();
+          });
+      </script>
+</body>
+</html>

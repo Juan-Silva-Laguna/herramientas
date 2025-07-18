@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>hola wey</h1>
+    <script>
+        notifyMe();
+        function  notifyMe()  {  
+            console.log(Notification.permission);
+            if  (!("Notification"  in  window))  {   
+                alert("Este navegador no soporta notificaciones de escritorio");  
+            }  
+            else  if  (Notification.permission  ===  "granted")  {
+                console.log('granted');
+                var  options  =   {
+                    body:   "Descripción o cuerpo de la notificación",
+                    icon:   "url_del_icono.png",
+                    dir :   "ltr"
+                };
+                var  notification  =  new  Notification("Hola :D", options);
+                console.log(notification);
+            }  
+            else  if  (Notification.permission  !==  'denied')  {
+                console.log('denied');
+                Notification.requestPermission(function (permission)  {
+                    if  (!('permission'  in  Notification))  {
+                        Notification.permission  =  permission;
+                    }
+                    if  (permission  ===  "granted")  {
+                        var  options  =   {
+                            body:   "Descripción o cuerpo de la notificación",
+                            icon:   "url_del_icono.png",
+                            dir :   "ltr"
+                        };     
+                        var  notification  =  new  Notification("Hola :)", options);
+                    }   
+                });  
+            }
+        }
+    </script>
+</body>
+</html>

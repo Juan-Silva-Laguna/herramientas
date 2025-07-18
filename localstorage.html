@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+
+    <title>Web Storage API example</title>
+  </head>
+<body id="cuerpo">
+    <body>
+        <div style="background-color: #fff; ">
+          <form>
+                <div style="margin-left: 80px; margin-top: 40px;">
+                <label for="bgcolor">Color del fondo:</label>
+                <input type="color" onchange="cambiarfondo()" id="bgcolor">
+                <input  style="margin-left: 80px; margin-top: 40px; margin-bottom: 40px;" type="button" onclick="cambiartexto()" value="Cambiar Titulo y Texto">
+                <select  style="margin-left: 80px; margin-top: 40px; margin-bottom: 40px;" id="borde" onchange="cambiarborde()">
+                    <option value="solid">Solido</option>
+                    <option value="dashed">Delineado</option>
+                    <option value="dotted">Punteado</option>
+                    <option value="double">Doble linea</option>
+                </select>
+                <input  style="margin-left: 100px; margin-top: 40px; margin-bottom: 40px; background-color: brown;color: #fff;" type="button" onclick="quitar()" value="QUITAR">
+                <center>
+                    <div  style="margin-top: 40px; padding-bottom: 40px;">
+                        <div id="contenido"></div>
+
+                    </div>  
+                </center>              
+            </div>
+          </form>
+        </div>
+      </body>
+    <script>
+        mostrarcambios();
+        function cambiarfondo() {
+            localStorage.setItem('color', document.getElementById('bgcolor').value);
+            mostrarcambios();
+        }
+
+        function cambiarborde() {
+            localStorage.setItem('borde', document.getElementById('borde').value);
+            mostrarcambios();
+        }
+
+        function cambiartexto() {
+            let titulo = prompt('Ingrese el titulo:');
+            localStorage.setItem('titulo', titulo);
+            let texto = prompt('Ingrese el texto:');            
+            localStorage.setItem('texto', texto);
+            mostrarcambios();
+        }
+
+        function mostrarcambios() {
+            var color = localStorage.getItem('color');
+            var texto = localStorage.getItem('texto');
+            var titulo = localStorage.getItem('titulo');
+            var borde = localStorage.getItem('borde');
+
+                var cuerpo = `
+                    <h1>${titulo}</h1>
+                    <br>
+                    <div style="border-top: 5px ${borde} ${color}; border-right: 5px ${borde} ${color}; border-bottom: 5px ${borde} ${color}; border-left: 5px ${borde} ${color};margin-right: 80px;">                
+                        <p>${texto}<p>
+                    </div>
+                `;
+                
+                document.getElementById('bgcolor').value = color;
+                document.getElementById('borde').value = borde;
+                document.getElementById('contenido').innerHTML = cuerpo;
+                document.getElementById('cuerpo').setAttribute("style", `background-color: ${color};`);
+             
+        }
+
+        function quitar() {
+            /*//quitar por item
+                localStorage.removeItem('miGato');
+            */
+            localStorage.clear();
+            mostrarcambios();
+        }
+    </script>
+</body>
+</html>

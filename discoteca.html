@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body id="fondo">
+        
+    </body>
+    <script>       
+        setInterval(() => {
+            let todo = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,'A', 'B', 'C', 'D', 'E', 'F']
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+            let j =Math.round(Math.random()*15);
+                color += todo[j];
+            }
+            document.getElementById('fondo').style.backgroundColor = color;
+        }, 1000);
+    </script>
+</html>

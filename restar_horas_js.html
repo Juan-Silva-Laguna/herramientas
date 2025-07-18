@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Vehiculo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">    
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1>NUEVO VEHICULO</h1>
+                <br>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <label for="vehiculo">Por favor ingrese la placa del vehiculo:</label>
+                <input type="text" class="form-control" id="vehiculo">
+                <br>
+                <input type="submit" class="btn btn-primary" id="boton" value="Verificar">
+            </div>
+            <div class="col-md-12 text-center">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>PLACA</th>
+                            <th>HORA INGRESO</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoTabla">
+
+                    </tbody>
+                </table>
+            </div>
+            
+
+        </div>    
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        let arregloVehiculos = [];
+        $('#boton').on('click',function () {
+            if ($('#vehiculo').val()!='') {
+                let hoy = new Date();
+                let hora = hoy.getHours()+":"+hoy.getMinutes()+":"+hoy.getSeconds();
+                arregloVehiculos.push($('#vehiculo').val(), hora); 
+                $('#vehiculo').val('');                          
+            }else{
+                alert('Por favor ingrese la placa.')
+            }
+            mostrar(arregloVehiculos);
+        })
+
+        function mostrar(arr) {
+            let cuerpoTabla = '';
+            for (let i = 0; i < arr.length; i=i+2) {
+                cuerpoTabla += `
+                    <tr>
+                        <td>${arr[i]}</td>
+                        <td>${arr[i+1]}</td>
+                        <td><input type="submit" class="btn btn-success" value="Sacar" onclick="calcular('${arr[i]}','${arr[i+1]}')"></td>
+                    </tr>
+                `;
+            }
+            $('#cuerpoTabla').html(cuerpoTabla);
+        }
+
+        function calcular(placa, ingreso) {
+            
+            let hoy = new Date();
+            let hora = hoy.getHours()+":"+hoy.getMinutes()+":"+hoy.getSeconds();
+            let hora1 = (hora).split(":"),
+                hora2 = (ingreso).split(":"),
+                t1 = new Date(),
+                t2 = new Date();
+            
+            t1.setHours(hora1[0], hora1[1], hora1[2]);
+            t2.setHours(hora2[0], hora2[1], hora2[2]);
+            
+            //Aquí hago la resta
+            t1.setHours(t1.getHours() - t2.getHours(), t1.getMinutes() - t2.getMinutes(), t1.getSeconds() - t2.getSeconds());
+            alert("El tiempo transcurrido es de: " + (t1.getHours() ? t1.getHours() + (t1.getHours() > 1 ? " horas" : " hora") : "") + (t1.getMinutes() ? ", " + t1.getMinutes() + (t1.getMinutes() > 1 ? " minutos" : " minuto") : "") + (t1.getSeconds() ? (t1.getHours() || t1.getMinutes() ? " y " : "") + t1.getSeconds() + (t1.getSeconds() > 1 ? " segundos" : " segundo") : ""));
+            let indice = arregloVehiculos.indexOf(placa);
+            arregloVehiculos.splice(indice, 2);
+            mostrar(arregloVehiculos);
+        }
+    </script>
+</body>
+</html>

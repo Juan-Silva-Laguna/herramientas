@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+<title>Excel to JSON Demo</title>
+<script src="xlsx.full.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+</head>
+<body>
+  <center>
+    <br><br>
+    <form enctype="multipart/form-data">
+      <input type="file" onchange="ini(event)"  id="archivo">
+    </form>
+
+    <h1 id="titulo"></h1>
+    <div id="mostrar"></div>
+  </center>
+
+<script>
+function ini (event) {
+  console.log(event);
+  let url = URL.createObjectURL(event.target.files[0]);
+  let oReq = new XMLHttpRequest();
+  oReq.open("GET", url, true);
+  oReq.responseType = "arraybuffer";
+
+  oReq.onload = function(e) {
+    let arraybuffer = oReq.response;
+
+    /* convert data to binary string */
+    let data = new Uint8Array(arraybuffer);
+    let arr = new Array();
+    for(let i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+    let bstr = arr.join("");
+
+    /* Call XLSX */
+    let workbook = XLSX.read(bstr, {type:"binary"});
+
+    /* DO SOMETHING WITH workbook HERE */
+    let first_sheet_name = workbook.SheetNames[0];
+    /* Get worksheet */
+    let worksheet = workbook.Sheets[first_sheet_name];
+    let objeto = XLSX.utils.sheet_to_json(worksheet,{raw:true});
+
+    console.log(objeto);
+    
+    let cadena = JSON.stringify(objeto[0]);
+
+    var puntos = [];
+    var comas = [];
+    var cont = 0;
+    for(var i = 0; i < cadena.length; i++) {
+      if (cadena[i] === ":") puntos.push(i); cont++;
+      if (cadena[i] === ",") comas.push(i);
+    }
+
+    let tabla = `
+      <table border=1>
+      <tr>  
+      <td>${cadena.substring(2, puntos[0]-1)}</td> 
+    `;
+    var indice = [cadena.substring(2, puntos[0]-1)];
+    for (let i = 0; i < cadena.length; i++) {
+
+      if (cadena.substring(comas[i]+2, puntos[i+1]-1) != '') {
+        indice.push(cadena.substring(comas[i]+2, puntos[i+1]-1));
+        tabla += '<td>'+cadena.substring(comas[i]+2, puntos[i+1]-1)+'</td>'
+      }   
+      
+    }
+    tabla += '</tr>';
+    for (let y = 0; y < objeto.length; y++) {
+      tabla += '<tr>';
+      for (let x = 0; x < cont; x++) {
+          if (objeto[y][indice[x]] != undefined) {
+            tabla += '<td>'+objeto[y][indice[x]]+'</td>';
+          }          
+      }
+      tabla += '</tr>';
+    }
+
+    document.getElementById('mostrar').innerHTML = tabla+"</table>";
+  }
+  oReq.send();
+};
+
+
+
+
+
+</script>
+</body>
+</html>

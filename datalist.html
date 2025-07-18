@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script></head>
+</head>
+<body>
+    <input type="text" list="todos" id="todo" onchange="muestraId()">
+    <datalist id="todos">
+        <option value="Uno" data-index-number="1"></option>
+        <option value="Dos" data-index-number="2"></option>
+        <option value="Tres" data-index-number="3"></option>
+        <option value="Cuatro" data-index-number="4"></option>
+        <option value="Cinco" data-index-number="5"></option>
+    </datalist>
+
+    <script>
+        function muestraId() {
+            alert($('#todos [value="' + $('#todo').val() + '"]').data('indexNumber'));
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+<style>
+.contenedor{
+    position:absolute;
+}
+.pdf{
+    position:relative;
+}
+.bloqueo{
+    position:relative;
+    background-color:rgba(255,255,255,0.00);
+    width:1330px;
+    height:640px;
+}
+</style>
+</head>
+<body>
+  <div class="contenedor">
+    <div class="pdf">
+      <object data="PDF.pdf#toolbar=0" id="doc" type="application/PDF" width="1340px" height="640px" align="right"></object>
+      </div><div class="bloqueo">
+    </div>
+  </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script type="text/x-javascript">
+  //codigo javascript
+  var isCtrl = false;
+  document.onkeyup=function(e){
+    if(e.which == 17) isCtrl=false;
+  }
+  document.onkeydown=function(e){
+    if(e.which == 17) isCtrl=true;
+    if(e.which == 80 && isCtrl == true) {
+      return false;
+    }
+  }
+console.log($('html'));
+  $('html').mousedown(function(ev){ 
+    console.log(ev);
+    ev.preventDefault();
+    if(ev.which == 3) { 
+      console.log($('#doc').attr('data'));
+      return false;
+    } 
+  });
+</script>
+</html>
+ 
